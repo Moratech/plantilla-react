@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta API</title>
+</head>
+<body>
+    <button onclick="consultarAPI()">Consultar API</button>
+
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+            </tr>
+        </thead>
+        <tbody id="tablaBody">
+        </tbody>
+    </table>
+
+    <script>
+        function consultarAPI() {
+            const apiUrl = 'https://jsonplaceholder.typicode.com/users';
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    llenarTabla(data);
+                })
+                .catch(error => console.error('Error al consultar la API:', error));
+        }
+
+        function llenarTabla(data) {
+            const tablaBody = document.getElementById('tablaBody');
+            tablaBody.innerHTML = '';
+
+            data.forEach(item => {
+                const fila = document.createElement('tr');
+                fila.innerHTML = `
+                    <th scope="row">${item.id}</th>
+                    <td>${item.name}</td>
+                    <td>${item.username}</td>
+                    <td>${item.email}</td>
+                `;
+
+                tablaBody.appendChild(fila);
+            });
+        }
+    </script>
+</body>
+</html>
